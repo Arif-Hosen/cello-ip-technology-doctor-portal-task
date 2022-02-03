@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "firebase/auth";
 import initializeAutentication from '../pages/Login/Firebase/firebase.init';
 
+
 initializeAutentication();
 
 const useFirebase = () => {
@@ -10,6 +11,8 @@ const useFirebase = () => {
 
     const [user, setUser] = useState({});
     const [error, setError] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
     // console.log(user);
 
     // state declare for set email and password from input field
@@ -31,6 +34,7 @@ const useFirebase = () => {
             .then(result => {
                 const user = result.user;
                 setUser(user);
+
             })
             .catch(error => {
 
@@ -68,6 +72,7 @@ const useFirebase = () => {
             } else {
                 setUser({})
             }
+            setIsLoading(false);
         });
     }, [])
 
@@ -77,7 +82,8 @@ const useFirebase = () => {
         handlePassword,
         createUserRegistration,
         loginUser,
-        logOutUser
+        logOutUser,
+        isLoading
 
     }
 

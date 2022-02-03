@@ -5,10 +5,11 @@ import useAuth from '../../../Hooks/useAuth';
 import Navigation from '../../Shared/Navigation/Navigation';
 
 const Login = () => {
-    const { handleEmail, handlePassword, loginUser } = useAuth();
+    const { handleEmail, handlePassword, loginUser, isLoading } = useAuth();
     // to get location where user want to go
     const location = useLocation();
     const history = useHistory();
+    console.log(history)
 
     const redirectUrl = location.state?.from || '/';
 
@@ -19,6 +20,7 @@ const Login = () => {
             .then(result => {
                 history.push(redirectUrl);
             })
+            .finally(() => isLoading(false))
     }
     return (
         <div>

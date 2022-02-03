@@ -42,8 +42,8 @@ const useFirebase = () => {
 
 
     // login with email and password
-    const loginUser = (e) => {
-        e.preventDefault();
+    const loginUser = () => {
+
         return signInWithEmailAndPassword(auth, email, password)
 
     }

@@ -1,17 +1,31 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../../Hooks/useAuth';
 import Navigation from '../../Shared/Navigation/Navigation';
 
 const Login = () => {
     const { handleEmail, handlePassword, loginUser } = useAuth();
+    // to get location where user want to go
+    const location = useLocation();
+    const history = useHistory();
 
+    const redirectUrl = location.state?.from || '/';
+
+    const loginHandler = e => {
+        e.preventDefault();
+        loginUser()
+            // after login redirect to visited page
+            .then(result => {
+                history.push(redirectUrl);
+            })
+    }
     return (
         <div>
             <Navigation></Navigation>
             <div style={{ width: '400px' }} className='mx-auto mt-5 p-3 bg-warning rounded'>
                 <h3 className='mt-3'>LogIn</h3>
-                <form onSubmit={loginUser}>
+                <form onSubmit={loginHandler}>
 
                     <div class="mb-3 text-start">
                         <label for="exampleFormControlInput1" class="form-label">Email address</label>

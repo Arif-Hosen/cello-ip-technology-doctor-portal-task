@@ -11,7 +11,7 @@ const PatientList = () => {
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
-        fetch('http://localhost:5000/patientlist')
+        fetch('https://shielded-refuge-31732.herokuapp.com/patientlist')
             .then(res => res.json())
             .then(data => setPatients(data))
     }, [])
@@ -29,7 +29,7 @@ const PatientList = () => {
     }
 
     const handleDelete = id => {
-        fetch(`http://localhost:5000/patient/${id}`, {
+        fetch(`https://shielded-refuge-31732.herokuapp.com/patient/${id}`, {
             method: 'DELETE'
         })
             .then(res => res.json())

@@ -32,7 +32,7 @@ const AddPatient = () => {
         setError('');
 
         // post method to send patient data to db
-        fetch('http://localhost:5000/patient', {
+        fetch('https://shielded-refuge-31732.herokuapp.com/patient', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

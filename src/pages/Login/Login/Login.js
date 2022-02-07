@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLocation, useHistory } from 'react-router-dom/cjs/react-router-dom.min';
 import useAuth from '../../../Hooks/useAuth';
 import Navigation from '../../Shared/Navigation/Navigation';
 
 const Login = () => {
-    const { handleEmail, handlePassword, loginUser, isLoading } = useAuth();
+    const { handleEmail, handlePassword, loginUser, setIsLoading } = useAuth();
     // to get location where user want to go
     const location = useLocation();
     const history = useHistory();
-    console.log(history)
+    const [error, setError] = useState('');
 
     const redirectUrl = location.state?.from || '/';
 
@@ -20,7 +20,10 @@ const Login = () => {
             .then(result => {
                 history.push(redirectUrl);
             })
-            .finally(() => isLoading(false))
+            .catch((error) => {
+                setError(error.message)
+            })
+            .finally(() => setIsLoading(false))
     }
     return (
         <div>
@@ -44,6 +47,9 @@ const Login = () => {
                     <button className='btn btn-primary' type="submit"
                     >Login</button>
                 </form>
+                {
+                    error && <p>{error}</p>
+                }
                 <p>--------------------------------</p>
                 <p>New User? Please <Link to='/register'>Sign Up</Link></p>
             </div>

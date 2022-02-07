@@ -10,6 +10,7 @@ import Register from './pages/Login/Register/Register';
 import Dashboard from './pages/Dashboard/Dashboard';
 import AuthProvider from './context/AuthProvider';
 import PrivateRoute from './pages/PrivateRoute/PrivateRoute';
+import PatientDetails from './pages/PatientDetails/PatientDetails';
 
 function App() {
   return (
@@ -35,6 +36,9 @@ function App() {
             </Route>
             <Route path='/register'>
               <Register></Register>
+            </Route>
+            <Route path='/details/:id'>
+              <PatientDetails></PatientDetails>
             </Route>
             <PrivateRoute path='/dashboard'>
               <Dashboard></Dashboard>

@@ -6,23 +6,47 @@ const AddPatient = () => {
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
 
-    const handlePatientName = e => {
-        setpatientName(e.target.value);
+    const patientInitialInfo = { name: '', email: '', age: '', gender: '' };
+    const [patientInfo, setPatientInfo] = useState(patientInitialInfo);
 
-
+    // get patient info from input field
+    const handleOnBlur = e => {
+        const field = e.target.name;
+        const value = e.target.value;
+        const newInfo = { ...patientInfo };
+        newInfo[field] = value;
+        setPatientInfo(newInfo);
+        // console.log(newInfo);
 
     }
-    // /^[a-zA-Z]*$/
+
 
     const handleOnSubmit = (e) => {
+
         e.preventDefault();
         // name validation
-        if (!/^[a-zA-Z]*$/.test(patientName)) {
+        if (!/^[a-zA-Z]*$/.test(patientInfo.name)) {
             setError('name is not a string')
             return
         }
         setError('');
-        setSuccess('Successfully Added');
+
+        // post method to send patient data to db
+        fetch('http://localhost:5000/patient', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify(patientInfo)
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data.insertedId) {
+                    setSuccess('Successfully Added Patient!!')
+                }
+            })
+
+
     }
 
 
@@ -35,7 +59,7 @@ const AddPatient = () => {
                     <div class="mb-3 text-start">
                         <label for="name" class="form-label ">Patient</label>
                         <input type="name"
-                            onBlur={handlePatientName}
+                            onBlur={handleOnBlur}
                             className="form-control"
                             name='name'
                             placeholder="Patient Name"
@@ -45,19 +69,27 @@ const AddPatient = () => {
                         <label for="exampleFormControlInput1" class="form-label">Email address</label>
                         <input type="email"
                             name='email'
+                            onBlur={handleOnBlur}
                             class="form-control" id="exampleFormControlInput1" placeholder="name@example.com"
                             required />
                     </div>
                     <div class="mb-3 text-start">
                         <label for="exampleFormControlInput1" class="form-label">Age</label>
-                        <input type="number" class="form-control" id="exampleFormControlInput1" placeholder="age"
+                        <input type="number"
+                            name='age'
+                            onBlur={handleOnBlur}
+                            class="form-control" id="exampleFormControlInput1" placeholder="age"
                             required />
                     </div>
-                    <select class="form-select" aria-label="Default select example" required>
+                    <select class="form-select" aria-label="Default select example"
+                        required
+                        name='gender'
+                        onBlur={handleOnBlur}
+                    >
                         <option selected>Select Gender</option>
-                        <option value="1">Male</option>
-                        <option value="2">Female</option>
-                        <option value="3">Others</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Others</option>
                     </select>
 
                     <p className='text-danger fs-5'>{error}</p>

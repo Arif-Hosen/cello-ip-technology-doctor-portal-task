@@ -83,7 +83,8 @@ const useFirebase = () => {
         createUserRegistration,
         loginUser,
         logOutUser,
-        isLoading
+        isLoading,
+        setIsLoading
 
     }
 
